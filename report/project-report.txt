@@ -12,7 +12,7 @@ classoption: titlepage
 geometry: margin=1in
 fontsize: 12pt
 toc: true
-lof: true 
+lof: true
 lot: true
 linkcolor: black
 urlcolor: blue
@@ -677,6 +677,9 @@ Each phase is job, with its mapper and reducer functions. Phase 1, takes basedir
 After we are done with PageRank iterations, we need to find Top 100 pages in decending sorted order of their PageRank. This job is implemented in class `edu.newhaven.sgurjar.wikipedia.TopKPageRankPages`. This has mapper and reducer functions. We configure this job to have exacly one reducer task, which is important to find top K elements.
 
 Input to the map function is key=nodeid and value=page object. Each map task holds a priority queue of fixed size (size=K, where is the input variable). The priority queue holds only top K object in sorted order where Page on the top of the queue has highest PageRank. A new Page object is added (in the sorted order) to the queue, if its PageRank is higher than page at the bottom of the queue. If queue is full page at the bottom of the queue is kicked-out. So at all time each Map task can have at most K items in its queue in sorted order of their PageRanks. In the end of map task, each mapper outputs this queue. Since there is only one Reducer, its gets `K * number_of_map_task` pages as input, again Reducer has a priority queue that holds K pages in sorted order, retain only K pages. In the end of reducer task, it outputs all the `K` pages.
+
+### Source Code
+Source code of the project is available at [github](http://github.com/sgurjar/wikipedia-pagerank).
 
 # Conclusion
 Following are top 20 pages of Wikipedia english pages and their PageRanks.
